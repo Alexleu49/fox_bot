@@ -29,6 +29,7 @@ TOKEN = os.getenv('BOT_TOKEN')
 DATA_FILE = 'stats.json'
 bot = telebot.TeleBot(TOKEN)
 
+
 def load_data():
     if os.path.exists(DATA_FILE):
         with open(DATA_FILE, 'r', encoding='utf-8') as f:
@@ -36,9 +37,11 @@ def load_data():
     else:
         return {"global": {"pet":0, "hug":0, "coin":0}, "users": {}}
 
+
 def save_data(data):
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
+
 
 def check_user(data, user_id):
     if user_id not in data['users']:
@@ -46,9 +49,11 @@ def check_user(data, user_id):
         save_data(data)
     return data
 
+
 @bot.message_handler(commands=['start'], chat_types=['private'])
 def send_welcome(message):
     bot.reply_to(message, "Привет, это небольшой бот от небольшого лиси, веселитесь) Фырь-фырь^^")
+
 
 @bot.message_handler(commands=['pet'], chat_types=['private'])
 def pet_handler(message):
@@ -64,19 +69,20 @@ def pet_handler(message):
         bot.reply_to(message, f"Лисик уже заглажен! Попробуй через {remaining} мин. 🦊")
         return
 
-    luck = random.randint(1, 100)
-    reward = 10 if luck == 1 else (5 if 2 <= luck <= 6 else (1 if 7 <= luck <= 16 else 0))
-
+    reward = random.choices([0, 1, 5, 10], weights=[75, 15, 9, 1], k=1)[0]
+    
     data['global']['pet'] += 1
     data['users'][user_id]['my_pet'] += 1
     data['users'][user_id]['last_pet'] = current_time 
     data['global']['coin'] += reward
     save_data(data)
 
-    response = (f"Ты погладил лисика! Фырь-Фырь^^ \n"
-                f"Всего поглаживаний: {data['global']['pet']}\n"
-                f"Твоих поглаживаний: {data['users'][user_id]['my_pet']}")
-    bot.reply_to(message, response)
+    response = [f"Ты обнял(-а) лисика! Фырь-Фырь^^ \n"
+                f"Всего объятий: {data['global']['hug']}\n"
+                f"Твоих объятий: {data['users'][user_id]['my_hug']}"]
+    if reward:
+        response.append(f"\n\nТы выбил(-а) лисев в количестве: {reward}")
+
 
 @bot.message_handler(commands=['hug'], chat_types=['private'])
 def hug_handler(message):
@@ -92,31 +98,35 @@ def hug_handler(message):
         bot.reply_to(message, f"Лисик сейчас не хочет обниматься. Приходи через {remaining // 60} ч. {remaining % 60} мин. 🫂")
         return
 
-    luck = random.randint(1, 100)
-    reward = 10 if 1 <= luck <= 3 else (5 if 4 <= luck <= 11 else (1 if 11 <= luck <= 26 else 0))
+    reward = random.choices([0, 3, 8, 15], weights=[75, 15, 9, 1], k=1)[0]
 
     data['global']['hug'] += 1
     data['users'][user_id]['my_hug'] += 1
     data['users'][user_id]['last_hug'] = current_time 
     save_data(data)
 
-    response = (f"Ты обнял(-а) лисика! Фырь-Фырь^^ \n"
+    response = [f"Ты обнял(-а) лисика! Фырь-Фырь^^ \n"
                 f"Всего объятий: {data['global']['hug']}\n"
-                f"Твоих объятий: {data['users'][user_id]['my_hug']}")
+                f"Твоих объятий: {data['users'][user_id]['my_hug']}"]
+    if reward:
+        response.append(f"\n\nТы выбил(-а) лисев в количестве: {reward}")
+    
     bot.reply_to(message, response)
+
 
 @bot.message_handler(commands=['stats'])
 def global_stats(message):
     data = load_data()
     total = data['global']
-    text = (f"🦊 Ваш любимый фуррёнок\n\n"
+    response = (f"🦊 Ваш любимый фуррёнок\n\n"
             f"Имя: Алекс\n"
             f"Вид: Лис (поглощение Puro)\n\n"
             f"Погладили: {total['pet']} раз\n"
             f"Обняли: {total['hug']} раз\n\n"
             f"Лисев на общем балансе: {total['coin']} 🦊\n"
             f"Бот: @Fox_stat_bot")
-    bot.reply_to(message, text)
+    bot.reply_to(message, response)
+
 
 @bot.message_handler(commands=['my_stats'])
 def local_stats(message):
@@ -125,11 +135,12 @@ def local_stats(message):
     data = check_user(data, user_id)
     user_stats = data['users'][user_id]
     
-    text = (f"Вы погладили: {user_stats['my_pet']} раз\n"
+    response = (f"Вы погладили: {user_stats['my_pet']} раз\n"
             f"Вы обняли: {user_stats['my_hug']} раз\n\n"
             f"Лисев на общем балансе: {data['global']['coin']} 🦊\n"
             f"Бот: @Fox_stat_bot")
-    bot.reply_to(message, text)
+    bot.reply_to(message, response)
+
 
 @bot.message_handler(commands=['reward'])
 def reward_user(message):
@@ -153,16 +164,15 @@ def reward_user(message):
         achievement_text = parts[2]
 
     data = check_user(data, target_id)
-    print('ачивка:', achievement_text)
     data['users'][target_id]['achievement'].append(achievement_text)
     save_data(data)
 
     bot.reply_to(message, f"Достижение «{achievement_text}» выдано пользователю!")
 
+
 @bot.message_handler(commands=['rewards'])
 def show_rewards(message):
     data = load_data()
-    user_id = None
     
     if message.reply_to_message:
         user_id = str(message.reply_to_message.from_user.id)
@@ -187,16 +197,19 @@ def send_daily_stats():
         text = (f"📊 Ежедневная статистика Алекса:\n\n"
                 f"🦊 Общих поглаживаний: {global_data['pet']}\n"
                 f"🫂 Общих объятий: {global_data['hug']}\n"
-                f"💰 Лисев на общем балансе: {global_data['coin']} 🦊")
+                f"💰 Лисев на общем балансе: {global_data['coin']} 🦊\n"
+                f"Бот: @Fox_stat_bot")
         bot.send_message(CHANNEL_ID, text)
     except Exception as e:
         print(f"Ошибка при рассылке: {e}")
+
 
 def run_scheduler():
     schedule.every().day.at("15:00").do(send_daily_stats)
     while True:
         schedule.run_pending()
         time.sleep(15)
+
 
 threading.Thread(target=run_scheduler, daemon=True).start()
 

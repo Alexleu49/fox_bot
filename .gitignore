@@ -1,4 +1,5 @@
 .env
 
+github upload.bat
 __pycache__/
 venv/
