@@ -1,0 +1,76 @@
+{
+    "global": {
+        "pet": 150,
+        "hug": 124,
+        "coin": 58
+    },
+    "users": {
+        "ID_ПОЛЬЗОВАТЕЛЯ": {
+            "my_pet": 0,
+            "my_hug": 0,
+            "last_pet": 0,
+            "last_hug": 0,
+            "achievement": []
+        },
+        "1382475644": {
+            "my_pet": 32,
+            "my_hug": 29,
+            "last_pet": 1772107433.7744796,
+            "last_hug": 1772107435.443793,
+            "achievement": [
+                "Главни лись"
+            ]
+        },
+        "5647320964": {
+            "my_pet": 71,
+            "my_hug": 55,
+            "last_hug": 1772114921.2917962,
+            "last_pet": 1772114923.5882127,
+            "achievement": [
+                "Пурька"
+            ]
+        },
+        "6202999904": {
+            "my_pet": 41,
+            "my_hug": 36,
+            "last_pet": 1772115407.4768372,
+            "last_hug": 1772115408.3853168,
+            "achievement": []
+        },
+        "1438814988": {
+            "my_pet": 1,
+            "my_hug": 0,
+            "last_pet": 1771524407.159866,
+            "last_hug": 0,
+            "achievement": []
+        },
+        "7454109252": {
+            "my_pet": 1,
+            "my_hug": 0,
+            "last_pet": 1771691648.637764,
+            "last_hug": 0,
+            "achievement": []
+        },
+        "8391937823": {
+            "my_pet": 1,
+            "my_hug": 1,
+            "last_pet": 1771993047.200282,
+            "last_hug": 1771993051.9865324,
+            "achievement": []
+        },
+        "407137953": {
+            "my_pet": 1,
+            "my_hug": 1,
+            "last_pet": 1772075545.7879076,
+            "last_hug": 1772075551.2046313,
+            "achievement": []
+        },
+        "8428103214": {
+            "my_pet": 2,
+            "my_hug": 2,
+            "last_pet": 1772109910.4717414,
+            "last_hug": 1772109913.4922514,
+            "achievement": []
+        }
+    }
+}
