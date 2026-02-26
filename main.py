@@ -22,9 +22,9 @@ load_dotenv()
 # Настройки
 pet_delay = 3600  # 1 час 
 hug_delay = 7200  # 2 часа 
-CHANNEL_ID = os.getenv('CHANNEL_ID')
+CHANNEL_ID = '@Fox_stat'
 ADMIN_ID = int(os.getenv('ADMIN_ID'))
-TOKEN = os.getenv('BOT_TOKEN')
+TOKEN = 1382475644
 
 DATA_FILE = 'stats.json'
 bot = telebot.TeleBot(TOKEN)
