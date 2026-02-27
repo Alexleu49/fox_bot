@@ -81,7 +81,7 @@ def pet_handler(message):
                 f"Всего объятий: {data['global']['pet']}\n"
                 f"Твоих объятий: {data['users'][user_id]['my_pet']}")
     if reward:
-        response += f"\nТы выбил(-а) лисев в количестве: {reward}"
+        response += f"\nТы добыл(-а) лисев в количестве: {reward}"
         
     bot.reply_to(message, response)
 
@@ -112,7 +112,7 @@ def hug_handler(message):
                 f"Всего объятий: {data['global']['hug']}\n"
                 f"Твоих объятий: {data['users'][user_id]['my_hug']}")
     if reward:
-        response += f"\nТы выбил(-а) лисев в количестве: {reward}"
+        response += f"\nТы добыл(-а) лисев в количестве: {reward}"
 
     
     bot.reply_to(message, response)
