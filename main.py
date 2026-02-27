@@ -77,11 +77,13 @@ def pet_handler(message):
     data['global']['coin'] += reward
     save_data(data)
 
-    response = [f"Ты обнял(-а) лисика! Фырь-Фырь^^ \n"
-                f"Всего объятий: {data['global']['hug']}\n"
-                f"Твоих объятий: {data['users'][user_id]['my_hug']}"]
+    response = (f"Ты погладил(-а) лисика! Фырь-Фырь^^ \n"
+                f"Всего объятий: {data['global']['pet']}\n"
+                f"Твоих объятий: {data['users'][user_id]['my_pet']}")
     if reward:
-        response.append(f"\n\nТы выбил(-а) лисев в количестве: {reward}")
+        response += f"\nТы выбил(-а) лисев в количестве: {reward}"
+        
+    bot.reply_to(message, response)
 
 
 @bot.message_handler(commands=['hug'], chat_types=['private'])
@@ -103,13 +105,15 @@ def hug_handler(message):
     data['global']['hug'] += 1
     data['users'][user_id]['my_hug'] += 1
     data['users'][user_id]['last_hug'] = current_time 
+    data['global']['coin'] += reward
     save_data(data)
 
-    response = [f"Ты обнял(-а) лисика! Фырь-Фырь^^ \n"
+    response = (f"Ты обнял(-а) лисика! Фырь-Фырь^^ \n"
                 f"Всего объятий: {data['global']['hug']}\n"
-                f"Твоих объятий: {data['users'][user_id]['my_hug']}"]
+                f"Твоих объятий: {data['users'][user_id]['my_hug']}")
     if reward:
-        response.append(f"\n\nТы выбил(-а) лисев в количестве: {reward}")
+        response += f"\nТы выбил(-а) лисев в количестве: {reward}"
+
     
     bot.reply_to(message, response)
 
