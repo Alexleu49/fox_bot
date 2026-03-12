@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            /* Используем переменные темы Telegram, чтобы дизайн подстраивался сам */
+            background-color: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="user-name">Привет!</h1>
+    <button id="main-btn">Нажми меня</button>
+
+    <script>
+        // Инициализация
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Разворачиваем на все окно
+
+        // Достаем имя пользователя из данных инициализации
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            document.getElementById('user-name').innerText = `Привет, ${tg.initDataUnsafe.user.first_name}!`;
+        }
+    </script>
+</body>
+</html>

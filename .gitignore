@@ -1,5 +1,5 @@
 .env
-
+stats.json
 github upload.bat
 __pycache__/
 venv/
