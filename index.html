@@ -21,7 +21,7 @@
 <body>
     <h1 id="user-name">Привет!</h1>
     <button id="main-btn">Нажми меня</button>
-
+	
     <script>
         // Инициализация
         const tg = window.Telegram.WebApp;
@@ -32,5 +32,17 @@
             document.getElementById('user-name').innerText = `Привет, ${tg.initDataUnsafe.user.first_name}!`;
         }
     </script>
+	
+	<button id="pet-btn" style="padding: 10px 20px; font-size: 18px;">✨ Погладить лисика ✨</button>
+
+	<script>
+		const tg = window.Telegram.WebApp;
+		const petBtn = document.getElementById('pet-btn');
+
+		petBtn.addEventListener('click', () => {
+			// Метод sendData отправляет строку боту и ЗАКРЫВАЕТ Mini App
+			tg.sendData("action_pet_from_app"); 
+		});
+	</script>
 </body>
 </html>

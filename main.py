@@ -208,6 +208,14 @@ def send_daily_stats():
         print(f"Ошибка при рассылке: {e}")
 
 
+@bot.message_handler(content_types=['web_app_data'])
+def hendle_app_data(message):
+    data = message.web_app_data.data
+
+    if data == "action_pet_from_app":
+        pet_handler(message)
+
+
 def run_scheduler():
     schedule.every().day.at("15:00").do(send_daily_stats)
     while True:
